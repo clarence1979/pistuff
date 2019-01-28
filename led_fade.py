@@ -40,20 +40,32 @@ led = 5
 led1= 6 #The new LED connected to port D6
 
 grovepi.pinMode(led,"OUTPUT")
+grovepi.pinMode(led1,"OUTPUT")
 time.sleep(1)
 r = 0
+r1=0
 
 while True:
     try:
         # Read resistance from Potentiometer
         r = grovepi.analogRead(potentiometer)
+        r1 = 1024-grovepi.analogRead(potentiometer)
         print(r)
         # Send PWM signal to LED
         r=r//4
         grovepi.analogWrite(led,r)
-        r1=float(1024-r)
+        grovepi.analogWrite(led1,0)
+        time.sleep(1)
+        grovepi.analogWrite(led,0)
+        grovepi.analogWrite(led1,100)
+        time.sleep(1)
+        grovepi.analogWrite(led,r)
+        grovepi.analogWrite(led1,0)
+        time.sleep(1)
         print(r1)
-        grovepi.analogWrite(led,r1)
+        print(type(r1))
+        print(type(r))
+        #grovepi.analogWrite(led1,r1//4)
      
     except IOError:
         print("Error")
